@@ -1,6 +1,6 @@
-# Publify
+# Publify-Music
 
-**The Ruby on Rails publishing software formerly known as Typo**
+**A Music Blogging Application. Clone It. Run it. Dance.**
 
 ### Download
 
@@ -11,13 +11,11 @@ repository](https://github.com/publify/publify.git).
 [![Code Climate](https://codeclimate.com/github/publify/publify.png)](https://codeclimate.com/github/publify/publify)
 [![Dependency Status](https://gemnasium.com/publify/publify.png)](https://gemnasium.com/publify/publify)
 
-## What's Publify?
+## What is this?
 
-Publify is a simple but full featured web publishing software. It's built around a blogging engine and a small message system connected to Twitter.
+A simple but full featured web publishing software forked from [publify/publify].
+It's built around a blogging engine and a small message system connected to Twitter.
 
-Publify follows the principles of the IndieWeb, which are self hosting your Web site, and Publish On your Own Site, Syndicate Everywhere.
-
-Publify has been around since 2004 and is the oldest Ruby on Rails open source project alive.
 
 ## Features
 
@@ -31,6 +29,8 @@ Publify has been around since 2004 and is the oldest Ruby on Rails open source p
 
 ## Demo site
 
+Coming Soon.
+
 You can [give Publify a try](http://demo.publify.co)
 
 The login / password [to the admin](http://demo.publify.co/admin)
@@ -41,72 +41,46 @@ are:
 
 The demo is reset every 2 hours.
 
-## Install Publify  locally
-
-To install Publify you need the following:
+## Install locally
 
 -   Ruby 2.0, 2.1 or 2.2
 -   Ruby On Rails 4.2.0
 -   A database engine, MySQL, PgSQL or SQLite3
 
-1.  Unzip Publify archive
-2.  Rename database.yml.yourEngine as database.yml
-3.  Edit database.yml to add your database name, login and password.
-
 ```bash
+$ git clone git@github.com:blairanderson/that-music-blog.git name-of-my-music-blog
+$ cd name-of-my-music-blog
 $ bundle install
 $ rake db:setup
 $ rake db:migrate
 $ rake db:seed
 $ rake assets:precompile
 $ rails server
+$ open http://localhost:3000/admin
 ```
 
-You can now launch you browser and access to 127.0.0.1:3000.
+## Install on Heroku
 
+### Images!
 
+Setup Amazon S3 Storage to be able to upload files on your blog.
 
-## Install Publify on Heroku
+- create s3 Bucket - https://console.aws.amazon.com/s3/home
+- create User - https://console.aws.amazon.com/iam/home#users
+- create Group with S3 permissions - https://console.aws.amazon.com/iam/home#groups
+- add user to group
+- get s3 details: http://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSGettingStartedGuide/AWSCredentials.html
 
-In order to install Publify on Heroku, you’ll need to do some minor tweaks.
+Set Heroku config vars.
 
-### Storage
-
-You need to setup Amazon S3 storage to be able to upload files on your
-blog. Set Heroku config vars.
-
-```yaml
+```bash
+heroku create name-of-my-music-blog
 heroku config:set provider=AWS
-aws_access_key_id=YOUR_AWS_ACCESS_KEY_ID
-aws_secret_access_key=YOUR_AWS_SECRET_ACCESS_KEY
-aws_bucket=YOUR_AWS_BUCKET_NAME
-```
-
-To generate the Gemfile.lock, run:
-```bash
-HEROKU=true bundle install
-```
-
-Remove Gemfile.lock from .gitignore and commit it.
-
-Add the HEROKU config variable to your Heroku instance:
-
-```bash
-heroku config:set HEROKU=true
-```
-
-Push the repository to Heroku.
-
-When deploying for the first time, Heroku will automatically add a Database plugin to your instance and links it to the application.
-After the first deployment, don't forget to run the database migration and seed.
-
-```bash
+heroku config:set aws_bucket=YOUR_AWS_BUCKET_NAME
+heroku config:set aws_access_key_id=YOUR_AWS_ACCESS_KEY_ID
+heroku config:set aws_secret_access_key=YOUR_AWS_SECRET_ACCESS_KEY
+git push heroku master
 heroku run rake db:migrate db:seed
-```
-
-If application error has occurred after migration, you need to restart Heroku server.
-
-```bash
 heroku restart
 ```
 
@@ -125,28 +99,5 @@ heroku restart
 This is a list of Publify maintainers. If you have committed, please add
 your name and contact details to the list.
 
-**Frédéric de Villamil** <frederic@publify.co>
-blog: http://t37.net
-irc: neuro`
-
-**Matijs van Zuijlen**
-blog: http://www.matijs.net/blog/
-irc: matijs
-
-**Thomas Lecavelier**
-blog: http://blog.ookook.fr/
-irc: ook
-
-**Yannick François**
-blog: http://elsif.fr
-irc: yaf
-
-And [many more cool people who’ve one day or another contributed to
-Publify](https://github.com/publify/publify/graphs/contributors).
-
-**Original Author: Tobias Luetke**
-blog: http://blog.leetsoft.com/
-irc: xal
-
-Enjoy,
-The Publify team
+**Blair Anderson** <blair81@gmail.com>
+blog: http://www.blairanderson.co
