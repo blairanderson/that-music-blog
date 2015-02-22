@@ -1,0 +1,51 @@
+<div class="row">
+  <div class="col-sm-2">
+    <%= link_to(t(".delete"), {action: 'destroy', id: resource.id, search: params[:search], page: params[:page]}, data: {confirm: true}, method: :post) %>
+    <br/>
+    <% if resource.mime =~ /image/ %>
+      <a href="<%= resource.upload.medium.url %>" data-toggle="lightbox">
+        <%= image_tag(resource.upload.thumb.url) %>
+      </a>
+    <% else %>
+      <%= link_to(resource.upload_url, resource.upload_url) -%>
+    <% end %>
+  </div>
+  <div class="col-sm-8">
+    <div class="row">
+      <%- if resource.mime =~ /image/ %>
+        <form class="form-horizontal">
+            <label for="inputEmail" class="col-xs-3 control-label">
+              <%= link_to(t(".thumbnail"), resource.upload.thumb.url) %>
+            </label>
+
+            <div class="col-xs-9">
+              <%= text_field_tag "thumnail", resource.upload.thumb.url, class: "form-control" %>
+            </div>
+            <label for="inputEmail" class="col-xs-3 control-label">
+              <%= link_to(t(".medium_size"), resource.upload.medium.url) %>
+            </label>
+
+            <div class="col-xs-9">
+              <%= text_field_tag "medium", resource.upload.medium.url, class: "form-control" %>
+            </div>
+            <label for="inputEmail" class="col-xs-3 control-label">
+              <%= link_to(t(".original_size"), resource.upload.url) %>
+            </label>
+            <div class="col-xs-9">
+              <%= text_field_tag "original", resource.upload.url, class: "form-control" %>
+            </div>
+        </form>
+      <%- end %>
+    </div>
+  </div>
+  <div class="col-sm-2">
+    <ul class="list-unstyled">
+      <li><strong><%= t(".content_type") %>: </strong><%= resource.mime %></li>
+      <li><strong><%= t(".file_size") %>: </strong><%= h(resource.size) rescue 0 -%> bytes</li>
+      <li><strong><%= t(".date") %>: </strong><%= l(resource.created_at, format: :short) %></li>
+    </ul>
+  </div>
+</div>
+
+
+

@@ -22,7 +22,7 @@
     </div>
     <div class="collapse navbar-collapse" id="sidebar-top">
       <ul class='nav navbar-nav'>
-        <% for pm in current_user.project_modules %>
+        <% current_user.project_modules.each do |pm| %>
           <% if AccessControl.submenus_for(current_user.profile_label, pm.name.to_sym).size == 0 %>
             <%= tab_for(pm) %>
           <% else %>
@@ -75,9 +75,7 @@
   <div id='main'>
     <div class='row'>
       <div class='col-md-12'>
-        <div style='margin-top:20px'>
-          <%= render 'shared/flash', flash: flash %>
-        </div>
+        <%= render 'shared/flash', flash: flash %>
         <%- if content_for?(:page_heading) %>
           <div class='page-header'>
             <%= yield :page_heading %>

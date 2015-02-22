@@ -1,0 +1,12 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <strong><%= t(".filename") %><small>(<%= t('.right_click_for_link') %>)</small></strong>
+  </div>
+  <div class="panel-body">
+    <%- if resources.empty? %>
+      <%= t(".no_resources") %>
+    <%- end %>
+    <%= render resources %>
+    <%= display_pagination(resources, 6) %>
+  </div>
+</div>
