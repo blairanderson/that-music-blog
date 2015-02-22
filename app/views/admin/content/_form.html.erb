@@ -4,10 +4,24 @@
 
 <div class='row save-bar'>
   <div class='col-md-8 col-md-offset-2' id="save-bar">
+    <% if @article.featured_image %>
+      <%= image_tag @article.featured_image.upload.thumbnail %>
+    <% end %>
     <div class='pull-right'>
+      <% if @article.featured_image %>
+        <%= link_to "Change Featured Image", "#select-image", id: "select-image", class: 'btn btn-default' %>
+      <% else %>
+        <%= link_to "Add Featured Image", "#select-image", id: "select-image", class: 'btn btn-default' %>
+      <% end %>
+
+      <%= hidden_field_tag 'article[featured_image_id]', @article.featured_image.id if @article.featured_image.present? %>
+
+
       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#media-manager">
         <%= t('.media_manager') %>
       </button>
+
+
 
       <%= link_to(t('.cancel'), {action: 'index'}, {class: 'btn btn-default'}) %>
       <span id='preview_link'>
@@ -28,7 +42,8 @@
   <div class="modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title" id="mediaManagerLabel">Modal title</h4>
       </div>
       <div class="modal-body">
@@ -69,7 +84,8 @@
     <div id="editor">
       <%= text_area('article', 'body_and_extended', {:class => 'form-control ', style: 'height: 360px', placeholder: t('.type_your_post'), :"data-widearea" => "enable"}) %>
       <%#= render 'admin/shared/macros' %>
-    </div> <!-- End of editor -->
+    </div>
+    <!-- End of editor -->
   </div>
 </div>
 
@@ -79,26 +95,27 @@
     <div class="modal-content">
       <div class="modal-header">
         <h2 class="modal-title" id="myModalLabel"><%= t('.publish') %>
-        <%= submit_tag(t(".publish"), :class => 'btn btn-success pull-right') %>&nbsp;
+          <%= submit_tag(t(".publish"), :class => 'btn btn-success pull-right') %>&nbsp;
         </h2>
       </div>
       <div class="modal-body">
         <div class='well'>
           <h4><%= t(".tags") %></h4>
+
           <div class='form-group'>
             <%= text_field 'article', 'keywords', {:autocomplete => 'off', :class => 'form-control tm-input'} %>
           </div>
-          <p class='alert alert-warning'><%=t(".tags_explaination") %></p>
+          <p class='alert alert-warning'><%= t(".tags_explaination") %></p>
         </div>
         <% post_types = @post_types || [] %>
         <%- if post_types.size.zero? %>
           <%= hidden_field_tag "article[post_type]", "read" %>
-      <%- else %>
+        <%- else %>
           <div class='well'>
-          <h4><%= t(".article_type") %></h4>
-          <%= select :article, :post_type, post_types.map{|pt| [pt.name, pt.permalink]}, {include_blank: t('.default')} %>
-        </div>
-      <%- end %>
+            <h4><%= t(".article_type") %></h4>
+            <%= select :article, :post_type, post_types.map { |pt| [pt.name, pt.permalink] }, {include_blank: t('.default')} %>
+          </div>
+        <%- end %>
 
         <!-- Start of publish settings -->
         <div class='well'>
@@ -107,9 +124,10 @@
             <!-- Start of permalink box -->
             <div class='control-group'>
               <p>
-              <%= t(".permalink") %>:
-              <%= toggle_element('permalink') %>
+                <%= t(".permalink") %>:
+                <%= toggle_element('permalink') %>
               </p>
+
               <div id='permalink' class='collapse'>
                 <div class='form-group'>
                   <%= text_field 'article', 'permalink', {:autocomplete => 'off', :class => 'form-control'} %>
@@ -125,14 +143,16 @@
             <!-- Start of status -->
             <div class='control-group'>
               <p>
-              <%= t(".status") %>: <strong><%= @article.state.to_s.downcase %></strong>
-              <%= toggle_element('status') %>
+                <%= t(".status") %>: <strong><%= @article.state.to_s.downcase %></strong>
+                <%= toggle_element('status') %>
               </p>
+
               <div id='status' class='collapse'>
                 <label for="article_published" class='checkbox'>
-                  <%= check_box 'article', 'published'  %>
+                  <%= check_box 'article', 'published' %>
                   <%= t(".published") %>
                 </label>
+
                 <p>
                 <span class='btn btn-mini btn-default'>
                   <%= toggle_element('status', t('.ok')) %>
@@ -145,9 +165,10 @@
             <!-- Start of feedback settings -->
             <div class='control-group'>
               <p>
-              <%= t(".allowed_comments_and_trackbacks", allow_comment: content_tag(:strong, t(".allow_comments_status", count: @article.allow_comments ? 1 : 0)), allow_trackback: content_tag(:strong, t('.allow_pings_status', count: @article.allow_pings ? 1 : 0))) %>
-              <%= toggle_element('conversation') %>
+                <%= t(".allowed_comments_and_trackbacks", allow_comment: content_tag(:strong, t(".allow_comments_status", count: @article.allow_comments ? 1 : 0)), allow_trackback: content_tag(:strong, t('.allow_pings_status', count: @article.allow_pings ? 1 : 0))) %>
+                <%= toggle_element('conversation') %>
               </p>
+
               <div id='conversation' class='collapse'>
                 <label for="article_allow_pings" class='checkbox'>
                   <%= check_box 'article', 'allow_pings' %>
@@ -157,6 +178,7 @@
                   <%= check_box 'article', 'allow_comments' %>
                   <%= t(".allow_comments") %>
                 </label>
+
                 <p>
                 <span class='btn btn-mini btn-default'>
                   <%= toggle_element('conversation', t('.ok')) %>
@@ -169,16 +191,17 @@
             <!-- Start of date publish -->
             <div class='control-group'>
               <p>
-              <%= t(".published") %>
-              <strong>
-                <%- if @article.published %>
-                  <%= display_date_and_time(@article.published_at) %>
-              <%- else %>
-                  <%= t(".now") %>
-              <%- end %>
-              </strong>
-              <%= toggle_element('publish') %>
+                <%= t(".published") %>
+                <strong>
+                  <%- if @article.published %>
+                    <%= display_date_and_time(@article.published_at) %>
+                  <%- else %>
+                    <%= t(".now") %>
+                  <%- end %>
+                </strong>
+                <%= toggle_element('publish') %>
               </p>
+
               <div id='publish' class='collapse'>
                 <%= text_field 'article', 'published_at' %>
                 <p>
@@ -193,9 +216,11 @@
             <!-- Start of password block -->
             <div class='control-group'>
               <p>
-              <%= t(".visibility") %>: <strong><%= @article.password.nil? || @article.password.empty? ? t(".public") : t(".protected") %></strong>
-              <%= toggle_element('visibility') %>
+                <%= t(".visibility") %>:
+                <strong><%= @article.password.nil? || @article.password.empty? ? t(".public") : t(".protected") %></strong>
+                <%= toggle_element('visibility') %>
               </p>
+
               <div id='visibility' class='collapse'>
                 <label for="article_password"><%= t(".password") %></label>
                 <%= text_field 'article', 'password', :class => "form-control" %>
@@ -216,6 +241,9 @@
         <button type="button" class="btn btn-default" data-dismiss="modal"><%= t('.cancel') %></button>
         <%= submit_tag(t(".publish"), :class => 'btn btn-success') %>
       </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
 </div><!-- /.modal -->
+

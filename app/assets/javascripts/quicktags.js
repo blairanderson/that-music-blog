@@ -33,6 +33,7 @@ function edButton(id, display, tagStart, tagEnd, access, open) {
 function get_buttons(textfilter) {
   switch (textfilter) {
   case "textile":
+      edButtons.push(new edButton('ed_soundcloud', 'soundcloud', '', '', -1, 'soundcloud'));
       edButtons.push(new edButton('ed_bold', 'b', '**', '**', 'b'));
       edButtons.push(new edButton('ed_italic', 'i', '_', '_', 'i'));
       edButtons.push(new edButton('ed_link', 'link', '', '</a>', 'a'));
@@ -44,9 +45,10 @@ function get_buttons(textfilter) {
       edButtons.push(new edButton('ed_more', 'more', '\n<!--more-->\n', '', ''));
       edButtons.push(new edButton('ed_publifycode', 'publify:code', '', '\n</publify:code>\n\n', 'publify:code'));
       break;
-      
+
   case "markdown":
   case "markdown smartypants":
+      edButtons.push(new edButton('ed_soundcloud', 'soundcloud', '', '', -1, 'soundcloud'));
       edButtons.push(new edButton('ed_bold', 'b', '**', '**', 'b'));
       edButtons.push(new edButton('ed_italic', 'i', '_', '_', 'i'));
       edButtons.push(new edButton('ed_link', 'link', '', '</a>', 'a'));
@@ -61,6 +63,7 @@ function get_buttons(textfilter) {
       break;
 
   default:
+      edButtons.push(new edButton('ed_soundcloud', 'soundcloud', '', '', -1, 'soundcloud'));
       edButtons.push(new edButton('ed_bold', 'b', '<strong>', '</strong>', 'b'));
       edButtons.push(new edButton('ed_italic', 'i', '<em>', '</em>', 'i'));
       edButtons.push(new edButton('ed_link', 'link', '', '</a>', 'a'));
@@ -75,7 +78,7 @@ function get_buttons(textfilter) {
       edButtons.push(new edButton('ed_publifycode', 'publify:code', '', '\n</publify:code>\n\n', 'publify:code'));
       break;
   }
-  
+
 
 }
 
@@ -92,9 +95,7 @@ function edLink(display, URL, newWin) {
 }
 
 
-edLinks[edLinks.length] = new edLink('alexking.org'
-                                    ,'http://www.alexking.org/'
-                                    );
+edLinks[edLinks.length] = new edLink('alexking.org','http://www.alexking.org/');
 
 function edShowButton(which, button, i) {
 	if (button.access) {
@@ -104,6 +105,9 @@ function edShowButton(which, button, i) {
 		var accesskey = '';
 	}
 	switch (button.id) {
+    case 'ed_soundcloud':
+      document.write('<input type="button" id="' + button.id + '_' + which + '" ' + accesskey + ' class="btn btn-default ' + button.id + '" onclick="edInsertSoundcloud(\'' + which + '\');" value="' + button.display + '" />');
+      break;
 		case 'ed_img':
 			document.write('<input type="button" id="' + button.id + '_' + which + '" ' + accesskey + ' class="btn btn-default ' + button.id + '" onclick="edInsertImage(\'' + which + '\');" value="' + button.display + '" />');
 			break;
@@ -210,16 +214,16 @@ function edSpell(which) {
 
 function edToolbar(which, textfilter) {
   get_buttons(textfilter);
-        
+
 	document.write('<div id="ed_toolbar_' + which + '" class="btn-toolbar"><div class="btn-group-vertical">');
 	for (i = 0; i < extendedStart; i++) {
 		edShowButton(which, edButtons[i], i);
 	}
-  
+
 	for (i = extendedStart; i < edButtons.length; i++) {
 		edShowButton(which, edButtons[i], i);
 	}
-  
+
 	if (edShowExtraCookie()) {
 		document.write(
 			'<input type="button" id="ed_close_' + which + '" class="btn btn-default" onclick="edCloseAllTags(\'' + which + '\');" value="Close Tags" />'
@@ -372,6 +376,17 @@ function edInsertPublifyCode(which, i, defaultValue) {
 	}
 }
 
+
+function edInsertSoundcloud(which) {
+  myField = document.getElementById(which);
+  var myValue = prompt('Enter the URL of a soundcloud song', 'http://');
+  if (myValue && myValue.length > 0) {
+
+    var url = "https://w.soundcloud.com/player/?url=" + myValue + "&amp;auto_play=false&amp;hide_related=false&amp;show_comments=true&amp;show_user=true&amp;show_reposts=false&amp;visual=true";
+    var html = '<iframe src="' + url + '" width="100%" height="465" scrolling="no" frameborder="no"></iframe>';
+    edInsertContent(which, html);
+  }
+}
 
 function edInsertImage(which) {
     myField = document.getElementById(which);

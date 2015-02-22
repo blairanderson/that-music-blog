@@ -13,6 +13,8 @@ class Content < ActiveRecord::Base
   belongs_to :text_filter
   belongs_to :user
 
+  # has_one :featured_image, class_name: 'Resource'
+  belongs_to :featured_image, :class_name => "Resource"
   has_many :redirections
   has_many :redirects, through: :redirections, dependent: :destroy
 
