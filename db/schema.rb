@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 115) do
+ActiveRecord::Schema.define(version: 20150222061940) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,14 +41,15 @@ ActiveRecord::Schema.define(version: 115) do
     t.integer  "text_filter_id"
     t.text     "whiteboard"
     t.string   "name"
-    t.boolean  "published",      default: false
+    t.boolean  "published",         default: false
     t.boolean  "allow_pings"
     t.boolean  "allow_comments"
     t.datetime "published_at"
     t.string   "state"
     t.integer  "parent_id"
     t.text     "settings"
-    t.string   "post_type",      default: "read"
+    t.string   "post_type",         default: "read"
+    t.integer  "featured_image_id"
   end
 
   add_index "contents", ["published"], name: "index_contents_on_published", using: :btree
