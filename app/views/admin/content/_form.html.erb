@@ -5,6 +5,10 @@
 <div class='row save-bar'>
   <div class='col-md-8 col-md-offset-2' id="save-bar">
     <div class='pull-right'>
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#media-manager">
+        <%= t('.media_manager') %>
+      </button>
+
       <%= link_to(t('.cancel'), {action: 'index'}, {class: 'btn btn-default'}) %>
       <span id='preview_link'>
         <%= link_to(t(".preview"), {controller: '/articles', action: 'preview', id: @article.id}, {target: 'new', class: 'btn btn-default'}) if @article.id %>
@@ -17,6 +21,33 @@
     </div>
   </div>
 </div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="media-manager" tabindex="-1" role="dialog" aria-labelledby="mediaManagerLabel" aria-hidden="true">
+  <div class="modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="mediaManagerLabel">Modal title</h4>
+      </div>
+      <div class="modal-body">
+        <table class="table table-hover">
+          <% resources = Resource.images_by_created_at.page(params[:page]).per(this_blog.admin_display_elements) %>
+          <%= render partial: "admin/resources/resource", collection: resources %>
+          <%= display_pagination(resources, 6) %>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
 
 <div class='row'>
   <div class='col-md-8 col-md-offset-2' id="error-message-article">
