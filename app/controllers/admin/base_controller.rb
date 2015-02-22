@@ -5,7 +5,6 @@ class Admin::BaseController < ApplicationController
 
   before_action :login_required, except: [:login, :signup]
   before_action :look_for_needed_db_updates, except: [:login, :signup, :update_database, :migrate]
-  before_action :check_and_generate_secret_token, except: [:login, :signup, :update_database, :migrate]
 
   private
 
@@ -51,20 +50,6 @@ class Admin::BaseController < ApplicationController
     migrator = Migrator.new
     if migrator.migrations_pending?
       redirect_to controller: '/admin/settings', action: 'update_database'
-    end
-  end
-
-  def check_and_generate_secret_token
-    return if defined? $TESTING
-
-    checker = Admin::TokenChecker.new
-    return if checker.safe_token_in_use?
-
-    begin
-      checker.generate_token
-      flash[:notice] = I18n.t('admin.base.restart_application')
-    rescue
-      flash[:error] = I18n.t('admin.base.cant_generate_secret', checker_file: checker.file)
     end
   end
 end
