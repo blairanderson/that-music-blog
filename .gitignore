@@ -28,6 +28,4 @@ public/cache/*
 .bundle/
 .sass-cache/
 /vendor/bundle
-/themes/*
-!/themes/bootstrap-2
 gems/

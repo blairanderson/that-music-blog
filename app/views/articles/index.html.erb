@@ -1,4 +1,4 @@
-<%- for article in @articles %>
+<%- @articles.each do |article| %>
   <div class="post">
     <%= render article %>
     <%= render 'article_links', article: article %>
