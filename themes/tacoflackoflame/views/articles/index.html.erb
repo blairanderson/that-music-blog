@@ -1,9 +1,21 @@
-<% @articles.each do |a| %>
-  <%  %>
+<% content_for :header do %>
+  <div class="content">
+    Put a bunch of featured_image thumbnails in a square grid.
+    Put a bunch of featured_image thumbnails in a square grid.
+    Put a bunch of featured_image thumbnails in a square grid.
+    Put a bunch of featured_image thumbnails in a square grid.
+    Put a bunch of featured_image thumbnails in a square grid.
+    Put a bunch of featured_image thumbnails in a square grid.
+    Put a bunch of featured_image thumbnails in a square grid.
+    <% Content.with_featured_images.each do |a| %>
+      <%= a.featured_image.upload %>
+    <% end %>
+  </div>
 <% end %>
+
 <div class='hfeed'>
   <%= render @articles %>
 </div>
 <div class='paginate'>
-  <%= paginate(@articles)%>
+  <%= paginate(@articles) %>
 </div>

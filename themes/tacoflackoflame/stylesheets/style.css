@@ -25,6 +25,11 @@ body {
   display: table;
 }
 
+.taco-flacko-container {
+  width: 1100px;
+  max-width: 1100px;
+}
+
 .vertical {
   display: table-cell;
   vertical-align: middle;

@@ -3,11 +3,11 @@
 <head profile="http://gmpg.org/xfn/11">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><%= h(page_title) %></title>
-  <%= stylesheet_link_tag "/stylesheets/theme/bootstrap.css", "/stylesheets/theme/style.css", "/stylesheets/user-style.css", :media => 'all' %>
+  <%= stylesheet_link_tag "/stylesheets/theme/bootstrap.css", "/stylesheets/theme/style.css", media: 'all' %>
   <%= render 'shared/page_header' %>
 </head>
 <body>
-<div class="container">
+<div class="container-fluid  taco-flacko-container">
   <div class="row">
     <nav class="navbar navbar-default" role="navigation">
       <div class='navbar-header'>
@@ -31,9 +31,8 @@
   </div>
 </div>
 <% logo_height = 100.to_s %>
-<% logo = false %>
 <!--background-image: url(<%# this_blog.try(:logo) || this_blog.base_url + '/images/theme/header.jpg' %>)-->
-<div id='logo' class='container' style="height: <%= logo_height %>px; background: white;">
+<div id='logo' class='container-fluid taco-flacko-container' style="height: <%= logo_height %>px; background: white;">
   <div class='vertical' style="height: <%= logo_height %>px;">
     <div class="logo-name" style="margin-bottom:0px;">
       <%= link_to(this_blog.blog_name, this_blog.base_url) %>
@@ -44,7 +43,8 @@
     </div>
   </div>
 </div>
-<div class='container' id='page'>
+<%= yield :header %>
+<div class='container-fluid taco-flacko-container' id='page'>
   <div class='col-sm-8'>
     <%= yield %>
   </div>
@@ -52,14 +52,7 @@
     <%= render_sidebars %>
   </div>
 </div>
-
-<div id='page' class='container'>
-  <div class='row'>
-    <div class='span1'></div>
-    <div class='span7'></div>
-  </div>
-</div>
-<p style='text-align: center'>
+<p class="text-center">
   <small>Powered by <a href='http://www.thatmusicblog.com'>ThatMusicBlog</a></small>
 </p>
 </body>
