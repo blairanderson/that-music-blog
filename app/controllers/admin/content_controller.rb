@@ -96,12 +96,16 @@ class Admin::ContentController < Admin::BaseController
 
     get_fresh_or_existing_draft_for_article
 
-    @article.attributes = params[:article].permit!
+    @article.attributes = update_params
 
     @article.published = false
     @article.author = current_user
     @article.save_attachments!(params[:attachments])
-    @article.state = 'draft' unless @article.state == 'withdrawn'
+
+    unless @article.state == 'withdrawn'
+      @article.state = 'draft'
+    end
+
     @article.text_filter ||= current_user.default_text_filter
 
     if @article.title.blank?
@@ -112,9 +116,7 @@ class Admin::ContentController < Admin::BaseController
     if @article.save
       flash[:success] = I18n.t('admin.content.autosave.success')
       @must_update_calendar = (params[:article][:published_at] and params[:article][:published_at].to_time.to_i < Time.now.to_time.to_i and @article.parent_id.nil?)
-      respond_to do |format|
-        format.js
-      end
+      render json: @article
     end
   end
 

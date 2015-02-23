@@ -8,12 +8,11 @@ class Content < ActiveRecord::Base
 
   # TODO: Move these calls to ContentBase
   after_save :invalidates_cache?
-  after_destroy ->(c) {  c.invalidates_cache?(true) }
+  after_destroy ->(c) { c.invalidates_cache?(true) }
 
   belongs_to :text_filter
   belongs_to :user
 
-  # has_one :featured_image, class_name: 'Resource'
   belongs_to :featured_image, :class_name => "Resource"
   has_many :redirections
   has_many :redirects, through: :redirections, dependent: :destroy
@@ -27,16 +26,18 @@ class Content < ActiveRecord::Base
   scope :draft, -> { where('state = ?', 'draft') }
   scope :no_draft, -> { where('state <> ?', 'draft').order('published_at DESC') }
   scope :searchstring, lambda { |search_string|
-    tokens = search_string.split(' ').collect { |c| "%#{c.downcase}%" }
-    where('state = ? AND ' + (['(LOWER(body) LIKE ? OR LOWER(extended) LIKE ? OR LOWER(title) LIKE ?)'] * tokens.size).join(' AND '),
-          'published', *tokens.collect { |token| [token] * 3 }.flatten)
-  }
+      tokens = search_string.split(' ').collect { |c| "%#{c.downcase}%" }
+      where('state = ? AND ' + (['(LOWER(body) LIKE ? OR LOWER(extended) LIKE ? OR LOWER(title) LIKE ?)'] * tokens.size).join(' AND '),
+        'published', *tokens.collect { |token| [token] * 3 }.flatten)
+    }
   scope :already_published, -> { where('published = ? AND published_at < ?', true, Time.now).order(default_order) }
 
   scope :published_at_like, lambda { |date_at|
-    where(published_at: (PublifyTime.delta_like(date_at))
-  )
-  }
+      where(published_at: (PublifyTime.delta_like(date_at))
+      )
+    }
+
+  scope :with_featured_images, -> { where.not(featured_image_id: nil) }
 
   serialize :whiteboard
 
