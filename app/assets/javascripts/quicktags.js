@@ -392,7 +392,7 @@ function edInsertImage(which) {
     myField = document.getElementById(which);
 	var myValue = prompt('Enter the URL of the image', 'http://');
 	if (myValue && myValue.length > 0) {
-		myValue = '<img src="'
+		myValue = '<img class="img-responsive" src="'
 				+ myValue
 				+ '" alt="' + prompt('Enter a description of the image', '')
 				+ '" />';
