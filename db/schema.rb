@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150222061940) do
+ActiveRecord::Schema.define(version: 20150224155147) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -50,6 +50,7 @@ ActiveRecord::Schema.define(version: 20150222061940) do
     t.text     "settings"
     t.string   "post_type",         default: "read"
     t.integer  "featured_image_id"
+    t.datetime "event_date"
   end
 
   add_index "contents", ["published"], name: "index_contents_on_published", using: :btree
