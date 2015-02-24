@@ -1,15 +1,15 @@
 <%- content_for :page_heading do %>
-<h2>
-  <i class="glyphicon glyphicon-large glyphicon-pencil"></i>
-  <%= t(".manage_articles") %>
-  <%= link_to(t(".new_article"), {controller: 'content', action: 'new'}, id: 'dialog-link', class: 'btn btn-info pull-right')%>
-</h2>
+  <h2>
+    <i class="glyphicon glyphicon-large glyphicon-pencil"></i>
+    <%= t(".manage_articles") %>
+    <%= link_to(t(".new_article"), {controller: 'content', action: 'new'}, id: 'dialog-link', class: 'btn btn-info pull-right') %>
+  </h2>
 <% end %>
 
 <%= form_tag({action: 'index'}, {method: :get, name: 'article', remote: true, :class => 'form-inline spinnable', :"data-update-success" => 'articleList'}) do %>
 
   <% if params[:search] and params[:search]['state'] %>
-    <input type='hidden' name="search[state]" value="<%= params[:search]['state'] %>" >
+    <input type='hidden' name="search[state]" value="<%= params[:search]['state'] %>">
   <% end %>
 
   <p>
@@ -23,6 +23,11 @@
   <div class="panel panel-default">
     <div class="panel-heading">
       <div class='pull-right'>
+        <div class='form-group'>
+          <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#mass-delete-content">
+            Mass Delete?
+          </button>
+        </div>
         <div class='form-group'>
           <%= select_tag('search[user_id]', options_from_collection_for_select(User.all, 'id', 'name'), {prompt: t(".select_an_author"), :class => 'form-control'}) %>
         </div>
@@ -42,7 +47,36 @@
   </div>
   <table class="table table-hover">
     <tbody id="articleList">
-      <%= render 'article_list', { :articles => @articles } -%>
+    <%= render 'article_list', {:articles => @articles} -%>
     </tbody>
   </table>
-<%end%>
+<% end %>
+
+
+<!-- Modal -->
+<div class="modal fade" id="mass-delete-content" tabindex="-1" role="dialog" aria-labelledby="massDeleteLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="massDeleteLabel">Confrim you want to delete content?</h4>
+      </div>
+      <div class="modal-body">
+        <ul class="list-unstyled">
+          <% @articles.each do |item| %>
+            <li>
+              <%= link_to({action: 'destroy', id: item.id}, {class: 'btn btn-danger btn-xs btn-action'}) do %>
+                <%= content_tag(:span, '', class: 'glyphicon glyphicon-trash') %>
+                <%= content_tag(:span, item.title) %>
+              <% end %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
