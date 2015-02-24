@@ -80,9 +80,16 @@
   </div>
 
   <div class='col-md-8'>
-    <%= text_field 'article', 'title', :class => 'form-control', :placeholder => t('.title') %>
+    <div class="row">
+      <div class="col-xs-8">
+        <%= text_field 'article', 'title', class: 'form-control', placeholder: t('.title') %>
+      </div>
+      <div class="col-xs-4">
+        <%= text_field 'article', 'event_date', class: 'form-control', placeholder: 'Event Date?' %>
+      </div>
+    </div>
     <div id="editor">
-      <%= text_area('article', 'body_and_extended', {:class => 'form-control ', style: 'height: 360px', placeholder: t('.type_your_post'), :"data-widearea" => "enable"}) %>
+      <%= text_area('article', 'body_and_extended', {class: 'form-control ', style: 'height: 360px', placeholder: t('.type_your_post'), :"data-widearea" => "enable"}) %>
       <%#= render 'admin/shared/macros' %>
     </div>
     <!-- End of editor -->
@@ -95,7 +102,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h2 class="modal-title" id="myModalLabel"><%= t('.publish') %>
-          <%= submit_tag(t(".publish"), :class => 'btn btn-success pull-right') %>&nbsp;
+          <%= submit_tag(t(".publish"), class: 'btn btn-success pull-right') %>&nbsp;
         </h2>
       </div>
       <div class="modal-body">
@@ -103,7 +110,7 @@
           <h4><%= t(".tags") %></h4>
 
           <div class='form-group'>
-            <%= text_field 'article', 'keywords', {:autocomplete => 'off', :class => 'form-control tm-input'} %>
+            <%= text_field 'article', 'keywords', {autocomplete: 'off', class: 'form-control tm-input'} %>
           </div>
           <p class='alert alert-warning'><%= t(".tags_explaination") %></p>
         </div>

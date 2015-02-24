@@ -7,23 +7,29 @@ var typewatch = (function(){
   }  
 })();
 
+function autoSaveContent(){
+  return $.ajax({
+    type: "POST",
+    url: '/admin/content/autosave',
+    data: $("#article_form").serialize()
+  });
+}
+
 function autosave_request(e) {
   $('#article_form').keyup(function() {
-    typewatch(function() {
-      $.ajax({
-        type: "POST",
-        url: '/admin/content/autosave',
-        data: $("#article_form").serialize()});
-    }, 5000)
+    typewatch(autoSaveContent, 5000)
+  });
+  $('#article_event_date').on('change',function(e) {
+    typewatch(autoSaveContent, 5000)
   });
 }
 
 function set_widerea(element) {
   if ($("#article_id").val() == "") {
     wideArea().clearData(element);
+  } else {
+    wideArea();
   }
-
-  wideArea();
 }
 
 function tag_manager() {

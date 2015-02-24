@@ -116,7 +116,6 @@ class Admin::ContentController < Admin::BaseController
     if @article.save
       flash[:success] = I18n.t('admin.content.autosave.success')
       @must_update_calendar = (params[:article][:published_at] and params[:article][:published_at].to_time.to_i < Time.now.to_time.to_i and @article.parent_id.nil?)
-      render json: @article
     end
   end
 
