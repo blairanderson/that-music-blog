@@ -212,8 +212,10 @@
   function _renewIconsPosition(textarea, iconPanel, textAreaPosition) {
     var currentTextareaPosition = textAreaPosition || _getOffset(textarea);
     //set icon panel position
-    iconPanel.style.left = currentTextareaPosition.left + currentTextareaPosition.width - 21 + "px";
-    iconPanel.style.top  = currentTextareaPosition.top + "px";
+    //iconPanel.style.left = currentTextareaPosition.left + currentTextareaPosition.width - 21 + "px";
+    iconPanel.style.right = "20px";
+    //iconPanel.style.top  = currentTextareaPosition.top + "px";
+    iconPanel.style.top  =  "25px";
   }
 
   /**
