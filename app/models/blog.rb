@@ -30,6 +30,26 @@ class Blog < ActiveRecord::Base
   setting :canonical_server_url,       :string, ''  # Deprecated
   setting :lang,                       :string, 'en_US'
   setting :title_prefix,               :integer, 0 # Deprecated but needed for a migration
+  setting :logo_url,                   :string, ''
+  setting :background_color,           :string, '#ffffff'
+  setting :page_color,                 :string, '#000000'
+
+  def body_styles
+    "background-color: #{background_color};"
+  end
+
+  def page_styles
+    "background-color: #{page_color};"
+  end
+
+  def logo_height
+    logo_h = 100
+    "height: #{logo_h}px;"
+  end
+
+  def logo_styles
+    "background-image: url(#{logo_url || base_url + '/images/theme/header.jpg'});"
+  end
 
   # Spam
   setting :sp_global,                  :boolean, false

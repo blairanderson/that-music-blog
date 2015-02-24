@@ -6,7 +6,7 @@
   <%= stylesheet_link_tag "/stylesheets/theme/bootstrap.css", "/stylesheets/theme/style.css", media: 'all' %>
   <%= render 'shared/page_header' %>
 </head>
-<body>
+<body style="<%= this_blog.body_styles %>">
 <div class="container-fluid  taco-flacko-container">
   <div class="row">
     <nav class="navbar navbar-default" role="navigation">
@@ -32,7 +32,7 @@
 </div>
 <% logo_height = 100.to_s %>
 <!--background-image: url(<%# this_blog.try(:logo) || this_blog.base_url + '/images/theme/header.jpg' %>)-->
-<div id='logo' class='container-fluid taco-flacko-container' style="height: <%= logo_height %>px; background: white;">
+<div id='logo' class='container-fluid taco-flacko-container' style="<%= this_blog.logo_styles %>">
   <div class='vertical' style="height: <%= logo_height %>px;">
     <div class="logo-name" style="margin-bottom:0px;">
       <%= link_to(this_blog.blog_name, this_blog.base_url) %>
