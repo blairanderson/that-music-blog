@@ -51,7 +51,7 @@ group :development, :test do
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
-  
+
   gem 'factory_girl', '~> 4.5.0'
   gem 'capybara'
   gem 'rspec-rails', '~> 3.1.0'
@@ -73,3 +73,4 @@ end
 Dir.glob(File.join(File.dirname(__FILE__), 'themes', '**', 'Gemfile')) do |gemfile|
   eval(IO.read(gemfile), binding)
 end
+gem 'apipie-rails'
