@@ -31,6 +31,8 @@ class Blog < ActiveRecord::Base
   setting :lang,                       :string, 'en_US'
   setting :title_prefix,               :integer, 0 # Deprecated but needed for a migration
   setting :logo_url,                   :string, ''
+  setting :header_height,              :integer, 100
+  setting :header_color,               :string, '#7B00FF'
   setting :background_color,           :string, '#ffffff'
   setting :page_color,                 :string, '#000000'
 
@@ -43,12 +45,11 @@ class Blog < ActiveRecord::Base
   end
 
   def logo_height
-    logo_h = 100
-    "height: #{logo_h}px;"
+    "height: #{header_height}px;"
   end
 
   def logo_styles
-    "background-image: url(#{logo_url || base_url + '/images/theme/header.jpg'});"
+    logo_url.present? ? "background-image: url(#{logo_url});" : "background-color: #{header_color};"
   end
 
   # Spam
@@ -126,7 +127,6 @@ class Blog < ActiveRecord::Base
   setting :status_desc_template,       :string, '%excerpt%'
 
   setting :custom_tracking_field,      :string, ''
-  # setting :meta_author_template,       :string, "%blog_name% | %nickname%"
 
   setting :twitter_consumer_key,      :string, ''
   setting :twitter_consumer_secret,   :string, ''
