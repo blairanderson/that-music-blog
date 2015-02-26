@@ -30,10 +30,11 @@
     </nav>
   </div>
 </div>
-<% logo_height = 100.to_s %>
-<!--background-image: url(<%# this_blog.try(:logo) || this_blog.base_url + '/images/theme/header.jpg' %>)-->
-<%= content_tag :div, id: 'logo', style: (this_blog.page_styles + this_blog.logo_styles), class: "container-fluid taco-flacko-container" do %>
-  <div class='vertical' style="height: <%= logo_height %>px;">
+
+<!--Use vertical align with the logo -->
+<!--http://zerosixthree.se/vertical-align-anything-with-just-3-lines-of-css/-->
+<%= content_tag :div, id: 'logo', style: (this_blog.page_styles + this_blog.logo_styles), class: "container-fluid" do %>
+  <div class='vertical' style="<%= this_blog.logo_height %>">
     <div class="logo-name" style="margin-bottom:0px;">
       <%= link_to(this_blog.blog_name, this_blog.base_url) %>
     </div>
